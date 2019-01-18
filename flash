@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -x
+set -e
+
+# FIXME: All of the following makes lots of assumptions, should be fixed later
+LODEVICE=$(losetup -f)
+losetup $LODEVICE *.img
+partprobe $LODEVICE
+mount "${LODEVICE}p1" /mnt
+dd if="/mnt/usr/lib/linux-u-boot-rock64/idbloader.img" of="${LODEVICE}" seek=64
+umount /mnt
+losetup -d $LODEVICE

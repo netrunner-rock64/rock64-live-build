@@ -1,0 +1,11 @@
+echo "I: Sed'ing out kcm-about-extendedrc"
+sed -i 's,@@BUILD_VERSION@@,@@_VER_@@,g' /etc/xdg/kcm-about-extendedrc
+
+# Enable pam_kwallet for autologin too
+cat >> /etc/pam.d/sddm-autologin << EOF
+-auth   optional        pam_gnome_keyring.so
+-auth   optional        pam_kwallet5.so
+-session optional       pam_gnome_keyring.so auto_start
+-session optional       pam_kwallet5.so auto_start
+EOF
+
